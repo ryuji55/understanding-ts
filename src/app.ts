@@ -1,5 +1,5 @@
 class Department {
-  private employees: string[] = [];
+  protected employees: string[] = [];
 
   constructor(private readonly id: string, private readonly name: string) {}
 
@@ -19,7 +19,44 @@ class ITDepartment extends Department {
     super(id, "IT");
     this.admins = admins;
   }
+
+  addEmployee(employee: string): void {
+    if (employee === "Max") {
+      return;
+    }
+    this.employees.push(employee);
+  }
 }
+
+class AccountingDepartment extends Department {
+  private lastReport: string;
+
+  get mostRecentReport() {
+    if (this.lastReport) {
+      return this.lastReport;
+    }
+    throw new Error("レポートが見つかりません");
+  }
+  constructor(id: string, private reports: string[]) {
+    super(id, "Accounting");
+    this.lastReport = reports[0];
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+    this.lastReport = text;
+  }
+
+  printReports() {
+    console.log(this.reports);
+  }
+}
+
+const accountingDepartment = new AccountingDepartment("at1", []);
+
+accountingDepartment.addReport("Something");
+console.log("mostRecentReport", accountingDepartment.mostRecentReport);
+accountingDepartment.printReports();
 
 const it = new ITDepartment("it1", ["itMax"]);
 console.log("it", it);
