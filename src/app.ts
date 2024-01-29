@@ -1,5 +1,10 @@
 class Department {
+  static fiscalYear = 2024;
   protected employees: string[] = [];
+
+  static createEmployee(name: string) {
+    return { name };
+  }
 
   constructor(private readonly id: string, private readonly name: string) {}
 
@@ -59,6 +64,10 @@ class AccountingDepartment extends Department {
     console.log(this.reports);
   }
 }
+
+const employee1 = Department.createEmployee("staticMethodTest");
+console.log("employee1", employee1);
+console.log("fiscalYear", Department.fiscalYear);
 
 const accountingDepartment = new AccountingDepartment("at1", []);
 
